@@ -1,0 +1,30 @@
+version: "3"
+services:
+  postgres_db:
+    image: docker.io/library/postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: python_request/
+    command: python3 ./main.py
+    depends_on:
+      - postgres_db
+    restart: unless-stopped
+    stop_signal: SIGINT
+
+  reverse-proxy:
+    build: nginx_rev_proxy/
+    command: nginx -g 'daemon off;'
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres_db
+      - app
+
+volumes:
+  db_data:
