@@ -1,2 +1,4 @@
 # project0
-docker-compose up
+Simple WebApp wich accept POST only requests and store data in Postgres DB
+Usage:
+`docker-compose up`
