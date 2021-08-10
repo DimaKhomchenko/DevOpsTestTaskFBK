@@ -2,6 +2,7 @@ version: "3"
 services:
   postgres_db:
     image: docker.io/library/postgres
+    container_name: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123
@@ -16,6 +17,12 @@ services:
       - postgres_db
     restart: unless-stopped
     stop_signal: SIGINT
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
 
   reverse-proxy:
     build: nginx_rev_proxy/

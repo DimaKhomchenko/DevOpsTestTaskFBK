@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from time import sleep
 import psycopg2
+import os
 
 class SimpleWrapper(BaseHTTPRequestHandler):
 	def _set_response(self):
@@ -35,7 +36,7 @@ def run(server_class=HTTPServer, handler_class=SimpleWrapper, port=8000):
 if __name__ == '__main__':
 	while True:
 		try:
-			pg_connection = psycopg2.connect(database="postgres", user="postgres", password="123", host="project_0_postgres_db_1", port = "5432")
+			pg_connection = psycopg2.connect(database=os.environ.get('POSTGRES_DB'), user=os.environ.get('POSTGRES_USER'), password=os.environ.get('POSTGRES_PASSWORD'), host=os.environ.get('POSTGRES_HOST'), port=os.environ.get('POSTGRES_PORT'))
 		except psycopg2.OperationalError:
 			print("Waiting for database to be ready")
 			sleep(1)
