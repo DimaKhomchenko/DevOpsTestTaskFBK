@@ -13,6 +13,7 @@ services:
   app:
     build: python_request/
     command: python3 ./main.py
+    container_name: backend
     depends_on:
       - postgres_db
     restart: unless-stopped
